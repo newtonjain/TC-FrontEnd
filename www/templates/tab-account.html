@@ -1,0 +1,42 @@
+<ion-view view-title="Account">
+    <ion-content>       
+        <div class="list card">
+            <center>
+                <h2>{{authData.displayName}}</h2>
+                <p><strong>Email: </strong>{{authData.email}}</p>
+            </center>
+
+            <div class="item item-body">
+                <center>
+                    <img src="{{ authData.profileImageURL}}" style="width:200px" class="headshot menu-item">
+                </center>
+            </div>
+            
+            <div class="list card">
+
+  <a href="#" class="item item-icon-left">
+    <i class="icon ion-star"></i>
+    Rating: <i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star-half"></i>
+
+
+  </a>
+
+  <a href="#" class="item item-icon-left">
+    <i class="icon ion-ios-telephone"></i>
+    Phone number: 16472301993
+  </a>
+
+  <a href="#" class="item item-icon-left">
+    <i class="icon ion-spoon"></i>
+    Most popular dish: Pasta
+  </a>
+
+  <a href="#" class="item item-icon-left">
+    <i class="icon ion-cash"></i>
+    Earnings: $220
+  </a>
+
+</div>
+        </div>
+    </ion-content>
+</ion-view>

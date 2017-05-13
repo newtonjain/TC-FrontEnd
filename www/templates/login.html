@@ -1,0 +1,28 @@
+<ion-modal-viewn class='modal_full_screen'>
+  <ion-header-bar>
+    <div class="title" ng-show="!authData">Login</div>
+    
+    <div class="title" ng-show="authData">
+      Hello {{authData.displayName}}!
+    </div>
+    
+  </ion-header-bar>
+  <ion-content>
+  <br>
+  <br>
+    <center><img style=" width:325px"></center>
+  <center><h2>YalaYuu</h2></center>
+  <br>
+
+  <br>
+
+  <div ng-click="login()" ng-show="!authData" id="login">
+    <center><img src="img/fb.png" style="width:250px"></img></center>
+  </div>
+
+  <div ng-show="authData" ng-click="savefbinfo()" target="_blank">
+    <center><button class="button button-balanced">Let's Start</button></center>
+  </div>
+
+  </ion-content>
+</ion-modal-view>
