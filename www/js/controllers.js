@@ -1,8 +1,48 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $http, $firebaseArray, $ionicModal) {
+.controller('AppCtrl', function($scope, $http, $firebaseArray, $ionicModal, $window) {
 
   var _self = this;
+//  var window = $windowProvider.$get();
+
+  $scope.steps = 0;
+
+
+console.log('in ctrl',$window);
+document.addEventListener('deviceready', function() {
+    console.log("Device ready");
+
+      var successHandler = function (pedometerData) {
+       
+   $scope.steps= pedometerData.numberOfSteps; 
+    console.log('stepping', $scope.steps);
+    $scope.$apply();
+}
+
+var onError =  function(err) {
+console.log(err);
+};
+
+$window.pedometer.startPedometerUpdates(successHandler, onError);
+// if ($window.parent.pedometer) {
+// 
+// } else {
+//   console.log('i cant find WITH METHOD');
+// }
+
+// if (window.pedometer) {
+// window.pedometer.startPedometerUpdates(successHandler, onError);
+// } else {
+//   console.log('i cant find');
+// }
+
+// if (window.parent.pedometer) {
+// window.pedometer.startPedometerUpdates(successHandler, onError);
+// } else {
+//   console.log('i cant find');
+// }
+
+})
 
 
   //Opens the login modal as soon as the controller initializes
@@ -73,8 +113,19 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+
+
+
+
+
+.controller('AccountCtrl', function($scope, $window) {
+  
+
+
+// pedometer.startPedometerUpdates(function(){
+//     console.log( "Pedometer step counting is available" );
+// }, function(){
+//     console.log( "Pedometer step counting is NOT available" );
+// });
+
 });
