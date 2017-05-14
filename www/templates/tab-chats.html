@@ -1,4 +1,4 @@
-<ion-view view-title="Chats">
+<ion-view view-title="Connect">
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <ion-content>
     <ion-list>
@@ -12,35 +12,51 @@
           Delete
         </ion-option-button>
       </ion-item>-->
-      <h2>Level4</h2>
- 
+<h2>Next Levels</h2>
+ <div ng-repeat="profile in nextLevel">
 
-      <svg width="100" height="100" ng-click="clicking()">
+    <div class="list card" id="cloudTabDefaultPage-card22" style="background-color:grey; color: grey; opacity: 0.2">
+      <ion-item  class="item-icon-right" id="cloudTabDefaultPage-list-item10">
+        <h2>{{profile.first_name}}</h2>
+        <p>Level: {{profile.level}}</p>
+        <i class="icon ion-ios-heart"></i>
+      </ion-item>
+      <div class=" item item-image">
+        <img src="{{profile.image | trusted}}" style="display: block; width: 80%; height: auto; margin-left: auto; margin-right: auto;">
+      </div>
+    </div>
+
+
+    
+ </div>
+
+  
+<h2>Current Levels</h2>
+ <div ng-repeat="profile in currentLevel">
+
+      <!--<svg width="100" height="100" ng-click="clicking()">
   <defs>
      <pattern id="image" patternUnits="userSpaceOnUse" height="100" width="100">
-       <image x="0" y="0" height="100" width="100" xlink:href="https://disrupt-hack-api.herokuapp.com/mary.png"></image>
+       <image x="0" y="0" height="100" width="100" xlink:href="{{profile.image | trusted}}"></image>
     </pattern>
  </defs>
 <circle id='top' cx="50" cy="50" r="50" fill="url(#image)" />
-</svg>
+</svg>-->
 
-      <svg width="100" height="100">
-  <defs>
-     <pattern id="image" patternUnits="userSpaceOnUse" height="100" width="100">
-       <image x="0" y="0" height="100" width="100" xlink:href="https://disrupt-hack-api.herokuapp.com/morgan.png"></image>
-    </pattern>
- </defs>
-<circle id='top' cx="50" cy="50" r="50" fill="url(#image)"/>
-</svg>
+    <div class="list card" id="cloudTabDefaultPage-card22">
+      <ion-item  class="item-icon-right" id="cloudTabDefaultPage-list-item10">
+        <h2>{{profile.first_name}}</h2>
+        <p>Level: {{profile.level}}</p>
+        <i class="icon ion-ios-heart"></i>
+        <ion-option-button class="button-assertive" ng-click="clicking()">like</ion-option-button>
+        <ion-option-button class="button-dark" ng-click="clicking()">reject</ion-option-button>
+      </ion-item>
+      <div class=" item item-image">
+        <img src="{{profile.image | trusted}}" style="display: block; width: 80%; height: auto; margin-left: auto; margin-right: auto;">
+      </div>
+    </div>
 
-      <svg width="100" height="100">
-  <defs>
-     <pattern id="image" patternUnits="userSpaceOnUse" height="100" width="100">
-       <image x="0" y="0" height="100" width="100" xlink:href="https://disrupt-hack-api.herokuapp.com/erica.png"></image>
-    </pattern>
- </defs>
-<circle id='top' cx="50" cy="50" r="50" fill="url(#image)"/>
-</svg>
+ </div>
 
     </ion-list>
   </ion-content>

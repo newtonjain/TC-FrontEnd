@@ -47,4 +47,10 @@ angular.module('starter.services', [])
       return null;
     }
   };
-});
+})
+
+.filter('trusted', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}]);

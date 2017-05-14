@@ -5,7 +5,7 @@ angular.module('starter.controllers', [])
   var _self = this;
 //  var window = $windowProvider.$get();
 
-$scope.level = 0 ;
+$scope.level = 0;
   $scope.steps = 0;
 
   $scope.progessValue = 85;
@@ -17,7 +17,6 @@ $scope.level = 0 ;
       $scope.steps = parseInt(data.steps);
     }).error(function (data, status, headers, config) {
         console.log('There was a getting your information' + JSON.stringify(data) + JSON.stringify(status));
-        
     });
 
 
@@ -36,12 +35,14 @@ var counter = $scope.steps;
           if($scope.steps >= counter + 10){
             var stepsend = {steps: $scope.steps};
                   $http.post('https://disrupt-hack-api.herokuapp.com/api/v1/users/12345/steps', stepsend)
-                .success(function (data, status, headers, config) {
-                  console.log('getting level', JSON.stringify(data), JSON.stringify(status));
+                .success(function (data, status) {
+                  
                   $scope.level = data.level;
                    $scope.progessValue = 100;
-        
-                }).error(function (data, status, headers, config) {
+                   console.log('getting level', $scope.level);
+                   
+    
+                }).error(function (data, status) {
                     console.log('There was a error' + JSON.stringify(data) + JSON.stringify(status));
                 });
                 counter = $scope.steps
@@ -104,7 +105,26 @@ $window.pedometer.startPedometerUpdates(successHandler, onError);
   };
 })
 
-.controller('DashCtrl', function($scope, $window) {
+.controller('DashCtrl', function($scope, $window, $ionicModal) {
+
+     $ionicModal.fromTemplateUrl('templates/healthy.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalhealth = modal;
+  });
+    $scope.closeHealth = function() {
+    $scope.modalhealth.hide();
+  };
+
+     $ionicModal.fromTemplateUrl('templates/junk.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modaljunk = modal;
+  });
+    $scope.closeJunk = function() {
+    $scope.modaljunk.hide();
+  };
+
 
 
  var  app = new Clarifai.App("1Ffauy_ESYjZNZ-OJwq_Mhz8FA0FE2GOoQnJ7lPR", "zMK86-UqeDCmvn440hH1OOI-huq-wAeh6zBqhoq7")
@@ -146,6 +166,12 @@ $scope.meal={}
               //answer = response.outputs[0].data.concepts)[0].name
               console.log('getting response', response.outputs[0].data.concepts[0], 'fssfsdf',response.outputs[0].data.concepts[1]);
               $scope.mealType = response.outputs[0].data.concepts[0];
+              if('health' == $scope.mealType.name) {
+                 $scope.modalhealth.show();
+              }
+            if('junk' == $scope.mealType.name) {
+                 $scope.modaljunk.show();
+              }
               $scope.$apply();
               // return answer
             },
@@ -165,13 +191,30 @@ $scope.meal={}
 })
 
 .controller('ChatsCtrl', function($scope, Chats, $http) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+$scope.currentLevel={};
+$scope.nextLevel={};
+
+      $http.get('https://disrupt-hack-api.herokuapp.com/api/v1/users/12345/matches')
+    .success(function (data, status, headers, config) {
+      console.log('datagetting back', data);
+      $scope.currentLevel = data.current_level;
+      $scope.nextLevel = data.next_level;
+
+    }).error(function (data, status, headers, config) {
+        console.log('There was a getting your information' + JSON.stringify(data) + JSON.stringify(status));
+    });
+
+$scope.$watch('level', function(value){
+       $http.get('https://disrupt-hack-api.herokuapp.com/api/v1/users/12345/matches')
+    .success(function (data, status, headers, config) {
+      console.log('datagetting back', data);
+      $scope.currentLevel = data.current_level;
+      $scope.nextLevel = data.next_level;
+
+    }).error(function (data, status, headers, config) {
+        console.log('There was a getting your information' + JSON.stringify(data) + JSON.stringify(status));
+    });
+})
 
 $scope.clicking = function() {
   
@@ -185,7 +228,7 @@ var request = { liked_user_id: 452346 };
                     console.log('There was a error' + JSON.stringify(data) + JSON.stringify(status));
                 });
 
-   alert('dada');
+  //  alert('dada');
 }
 
   $scope.chats = Chats.all();
@@ -229,6 +272,11 @@ var request = { liked_user_id: 452346 };
 
         chart.draw(data, options);
 
+$scope.$watch('level', function(value){
+          console.log('updating level', value);
+          data.setValue(0, 1, value);
+          chart.draw(data, options);
+})
         // setInterval(function() {
         //   data.setValue(0, 1, 5);
         //   chart.draw(data, options);
