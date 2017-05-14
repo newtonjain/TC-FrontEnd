@@ -5,18 +5,44 @@ angular.module('starter.controllers', [])
   var _self = this;
 //  var window = $windowProvider.$get();
 
+$scope.level = 0 ;
   $scope.steps = 0;
+
+      $http.get('https://disrupt-hack-api.herokuapp.com/api/v1/users/12345')
+    .success(function (data, status, headers, config) {
+      console.log('datagetting back', data);
+      $scope.level = data.level;
+      $scope.steps = parseInt(data.steps);
+    }).error(function (data, status, headers, config) {
+        console.log('There was a getting your information' + JSON.stringify(data) + JSON.stringify(status));
+        
+    });
+
+
 
 
 console.log('in ctrl',$window);
 document.addEventListener('deviceready', function() {
     console.log("Device ready");
-
-      var successHandler = function (pedometerData) {
+var counter = $scope.steps;
+    var successHandler = function (pedometerData) {
        
-   $scope.steps= pedometerData.numberOfSteps; 
-    console.log('stepping', $scope.steps);
-    $scope.$apply();
+            $scope.steps= $scope.steps + pedometerData.numberOfSteps; 
+              console.log('stepping', $scope.steps);
+              $scope.$apply();
+
+          if($scope.steps >= counter + 10){
+            var stepsend = {steps: $scope.steps};
+                  $http.post('https://disrupt-hack-api.herokuapp.com/api/v1/users/12345/steps', stepsend)
+                .success(function (data, status, headers, config) {
+                  console.log('getting level', JSON.stringify(data), JSON.stringify(status));
+                  $scope.level = data.level;
+        
+                }).error(function (data, status, headers, config) {
+                    console.log('There was a error' + JSON.stringify(data) + JSON.stringify(status));
+                });
+                counter = $scope.steps
+        }
 }
 
 var onError =  function(err) {
@@ -24,23 +50,6 @@ console.log(err);
 };
 
 $window.pedometer.startPedometerUpdates(successHandler, onError);
-// if ($window.parent.pedometer) {
-// 
-// } else {
-//   console.log('i cant find WITH METHOD');
-// }
-
-// if (window.pedometer) {
-// window.pedometer.startPedometerUpdates(successHandler, onError);
-// } else {
-//   console.log('i cant find');
-// }
-
-// if (window.parent.pedometer) {
-// window.pedometer.startPedometerUpdates(successHandler, onError);
-// } else {
-//   console.log('i cant find');
-// }
 
 })
 
@@ -118,7 +127,9 @@ $window.pedometer.startPedometerUpdates(successHandler, onError);
 
 
 
-.controller('AccountCtrl', function($scope, $window) {
+.controller('AccountCtrl', function($scope, $window, $http) {
+
+
         google.charts.load('current', {'packages':['gauge']});
       google.charts.setOnLoadCallback(drawChart);
 
@@ -127,7 +138,7 @@ $window.pedometer.startPedometerUpdates(successHandler, onError);
 
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Level', 3]
+          ['Level', $scope.level]
         ]);
 
         var options = {
@@ -142,10 +153,11 @@ $window.pedometer.startPedometerUpdates(successHandler, onError);
 
         chart.draw(data, options);
 
-        setInterval(function() {
-          data.setValue(0, 1, 5);
-          chart.draw(data, options);
-        }, 10000);
+        // setInterval(function() {
+        //   data.setValue(0, 1, 5);
+        //   chart.draw(data, options);
+        // }, 10000);
+
         
       }
 
