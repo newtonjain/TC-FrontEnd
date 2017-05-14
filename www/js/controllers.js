@@ -164,7 +164,7 @@ $scope.meal={}
 
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
+.controller('ChatsCtrl', function($scope, Chats, $http) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -172,6 +172,21 @@ $scope.meal={}
   //
   //$scope.$on('$ionicView.enter', function(e) {
   //});
+
+$scope.clicking = function() {
+  
+var request = { liked_user_id: 452346 };
+      $http.post('https://disrupt-hack-api.herokuapp.com/api/v1/users/12345/like', request)
+                .success(function (data, status, headers, config) {
+                  console.log('getting level', JSON.stringify(data), JSON.stringify(status));
+                 
+        
+                }).error(function (data, status, headers, config) {
+                    console.log('There was a error' + JSON.stringify(data) + JSON.stringify(status));
+                });
+
+   alert('dada');
+}
 
   $scope.chats = Chats.all();
   $scope.remove = function(chat) {
