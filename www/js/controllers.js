@@ -8,6 +8,8 @@ angular.module('starter.controllers', [])
 $scope.level = 0 ;
   $scope.steps = 0;
 
+  $scope.progessValue = 85;
+
       $http.get('https://disrupt-hack-api.herokuapp.com/api/v1/users/12345')
     .success(function (data, status, headers, config) {
       console.log('datagetting back', data);
@@ -37,6 +39,7 @@ var counter = $scope.steps;
                 .success(function (data, status, headers, config) {
                   console.log('getting level', JSON.stringify(data), JSON.stringify(status));
                   $scope.level = data.level;
+                   $scope.progessValue = 100;
         
                 }).error(function (data, status, headers, config) {
                     console.log('There was a error' + JSON.stringify(data) + JSON.stringify(status));
@@ -101,7 +104,65 @@ $window.pedometer.startPedometerUpdates(successHandler, onError);
   };
 })
 
-.controller('DashCtrl', function($scope) {})
+.controller('DashCtrl', function($scope, $window) {
+
+
+ var  app = new Clarifai.App("1Ffauy_ESYjZNZ-OJwq_Mhz8FA0FE2GOoQnJ7lPR", "zMK86-UqeDCmvn440hH1OOI-huq-wAeh6zBqhoq7")
+var answer;
+$scope.mealType = {};
+$scope.meal={}
+    $scope.mealImage = null;
+
+    $scope.processImage = () =>{
+        encodeImageFileAsURL();
+        $scope.mealType={};
+    }
+
+
+    function encodeImageFileAsURL() {
+        var filesSelected = document.getElementById("inputFileToLoad").files;
+        if (filesSelected.length > 0) {
+        var fileToLoad = filesSelected[0];
+
+        var fileReader = new FileReader();
+
+        fileReader.onload = function(fileLoadedEvent) {
+            var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+            var newImage = document.createElement('img');
+            newImage.src = srcData;
+            //$scope.meal.mealImage = srcData;
+
+            document.getElementById("imagePreview").innerHTML = newImage.outerHTML;
+            //alert("Converted Base64 version is " + document.getElementById("imagePreview").innerHTML);
+            
+            var base64ImageContent = srcData.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+          //  var blob = base64ToBlob(base64ImageContent, 'image/png');     
+//console.log("Converted Base64 version is ", blob);
+
+        app.models.predict("junkfoods", {base64: base64ImageContent}).then(
+            function(response) {
+              //answer = response
+              //answer = response.outputs[0].data.concepts)[0].name
+              console.log('getting response', response.outputs[0].data.concepts[0], 'fssfsdf',response.outputs[0].data.concepts[1]);
+              $scope.mealType = response.outputs[0].data.concepts[0];
+              $scope.$apply();
+              // return answer
+            },
+            function(err) {
+              // there was an error
+              console.log('here is the error', err);
+            }
+          );
+
+
+        }
+        fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+
+
+})
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called

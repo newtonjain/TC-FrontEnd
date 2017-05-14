@@ -21,6 +21,14 @@
   background-color: #4CAF50;
 }
 
+#imagePreview{
+  position:relative;
+  width:100%;
+}
+
+.meal-image-preview img{
+  width:100%;
+}
 /*
  * Copyright (c) 2013 Thibaut Courouble
  * http://www.cssflow.com
