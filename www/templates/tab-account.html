@@ -7,43 +7,25 @@
             </center>
 
             <div class="item item-body">
-                <center>
-                    <img src="{{ authData.profileImageURL}}" style="width:200px" class="headshot menu-item">
-                </center>
+    <div class="row">
+  <div class="col"> <img src="{{ authData.profileImageURL}}" style="width:180px" class="headshot menu-item"></div>
+  <div class="col"> <div id="chart_div" style="width: 100px; height: 60px;"></div></div>
+</div>
+
+                   
+                  
             </div>
-              <div class="list card">     
-                Number of steps travelled: {{steps}}
-              </div>     
+         
+      <p class="clock">
+        <span class="clock-block">
+          <span class="clock-val">{{steps}}</span>
+          <span class="clock-unit">steps</span>
+        </span>
 
-   <div>
-          
-        </div>
+      </p>
+        <div>
+              </div>
+              </div>
 
-            <!--<div class="list card">
-
-  <a href="#" class="item item-icon-left">
-    <i class="icon ion-star"></i>
-    Rating: <i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star-half"></i>
-
-
-  </a>
-
-  <a href="#" class="item item-icon-left">
-    <i class="icon ion-ios-telephone"></i>
-    Phone number: 16472301993
-  </a>
-
-  <a href="#" class="item item-icon-left">
-    <i class="icon ion-spoon"></i>
-    Most popular dish: Pasta
-  </a>
-
-  <a href="#" class="item item-icon-left">
-    <i class="icon ion-cash"></i>
-    Earnings: $220
-  </a>
-
-</div>-->
-        </div>
     </ion-content>
 </ion-view>

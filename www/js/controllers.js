@@ -119,13 +119,35 @@ $window.pedometer.startPedometerUpdates(successHandler, onError);
 
 
 .controller('AccountCtrl', function($scope, $window) {
-  
+        google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart);
 
 
-// pedometer.startPedometerUpdates(function(){
-//     console.log( "Pedometer step counting is available" );
-// }, function(){
-//     console.log( "Pedometer step counting is NOT available" );
-// });
+       function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Level', 3]
+        ]);
+
+        var options = {
+          width: 180, height: 300,
+          redFrom: 8, redTo: 10,
+          yellowFrom:6, yellowTo: 8,
+          minorTicks: 1,
+          max: 10
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+        setInterval(function() {
+          data.setValue(0, 1, 5);
+          chart.draw(data, options);
+        }, 10000);
+        
+      }
+
 
 });
