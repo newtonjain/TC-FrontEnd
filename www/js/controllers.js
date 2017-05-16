@@ -103,6 +103,16 @@ $window.pedometer.startPedometerUpdates(successHandler, onError);
     // });
 
   };
+
+  $scope.reset = function() {
+    
+         $http.post('https://disrupt-hack-api.herokuapp.com/api/v1/users/12345/reset', {})
+    .success(function (data, status, headers, config) {
+      console.log('reset success');
+    }).error(function (data, status, headers, config) {
+        console.log('There was a problem posting your information' + JSON.stringify(data) + JSON.stringify(status));
+    });
+  }
 })
 
 .controller('DashCtrl', function($scope, $window, $ionicModal) {
