@@ -168,7 +168,7 @@ $scope.meal={}
             
             var base64ImageContent = srcData.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
           //  var blob = base64ToBlob(base64ImageContent, 'image/png');     
-//console.log("Converted Base64 version is ", blob);
+console.log("Converted Base64 version is ");
 
         app.models.predict("junkfoods", {base64: base64ImageContent}).then(
             function(response) {
